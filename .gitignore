@@ -1,0 +1,11 @@
+# Data directories
+prometheus/data/
+loki/data/
+grafana/data/
+portainer/data/
+
+# Environment
+.env
+
+# Logs
+*.log
