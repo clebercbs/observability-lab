@@ -260,3 +260,25 @@ VM-MONITORING:
 ✔ Helm instalado
 ✔ kube-prometheus-stack instalado
 ✔ Grafana acessível
+
+---------------------------------------------------------------------
+
+# 13. REMOÇÃO DA STACK INTERNA (TRANSIÇÃO PARA MODELO B)
+
+Caso kube-prometheus-stack tenha sido instalado no cluster:
+
+Listar releases:
+
+helm list -n monitoring
+
+Remover:
+
+helm uninstall observability -n monitoring
+
+Excluir namespace:
+
+kubectl delete namespace monitoring
+
+Objetivo:
+Garantir que o cluster atue apenas como ambiente cliente,
+sem processamento interno de observabilidade.
