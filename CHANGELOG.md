@@ -1,3 +1,20 @@
+# MSP-Stack
+
+## v0.3.0 - 2026-02-18
+
+### Added
+- Loki central com retenção de 3 dias
+- Alloy como DaemonSet no Kubernetes
+- RBAC para leitura de logs de pods
+- Labels multi-cliente (cliente, ambiente, cluster)
+- Integração Grafana ↔ Loki
+- Arquitetura separada VM-MONITORING / VM-CLUSTER
+
+### Validated
+- Ingestão de logs Kubernetes
+- Persistência de dados Loki
+- Consulta via Grafana
+
 # Changelog
 
 ## [v0.2.0] - 2026-02-18
