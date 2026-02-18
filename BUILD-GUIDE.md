@@ -282,3 +282,21 @@ kubectl delete namespace monitoring
 Objetivo:
 Garantir que o cluster atue apenas como ambiente cliente,
 sem processamento interno de observabilidade.
+
+# MSP Central Stack – Docker Compose Deployment
+
+Directory:
+
+/opt/msp-stack/
+
+Components:
+- Prometheus
+- Grafana
+- Client dynamic discovery
+
+Prometheus supports dynamic onboarding via:
+
+file_sd_configs:
+  - files:
+      - /etc/prometheus/clients/*.yml
+

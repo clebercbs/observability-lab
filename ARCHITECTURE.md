@@ -111,3 +111,26 @@ A arquitetura permite:
 - Escalável
 - Alinhado a modelo MSP
 - Facilita expansão futura
+
+## 9. Multi-Client Strategy (Prometheus)
+
+Prometheus uses file-based service discovery (file_sd_configs).
+
+Each client is defined as an independent YAML file inside:
+
+/opt/msp-stack/prometheus/clients/
+
+Example:
+
+- targets:
+  - 192.168.122.100:9100
+  labels:
+    cliente: "cliente01"
+    ambiente: "lab"
+    tipo: "node"
+
+Benefits:
+- Modular onboarding
+- No restart required for adding clients
+- Logical tenant isolation
+- Scalable MSP architecture
