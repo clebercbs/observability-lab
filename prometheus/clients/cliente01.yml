@@ -1,6 +1,6 @@
-- targets:
-    - 192.168.122.214:9100
-  labels:
-    cliente: "cliente01"
-    ambiente: "lab"
-    tipo: "node"
+- job_name: "cliente01-node"
+  static_configs:
+    - targets: ["192.168.122.214:9100"]
+      labels:
+        cliente: "cliente01"
+        ambiente: "producao"
