@@ -1,5 +1,16 @@
 # MSP-Stack
 
+## v0.7.0 - 2026-02-19
+
+### Added
+- Added Zabbix monitoring stack (server, web, database)
+- Initial support for infrastructure and SNMP monitoring
+- Prepared Grafana integration with Zabbix datasource
+
+### Notes
+- Zabbix complements Prometheus and Loki, not replacing them
+
+
 ## v0.3.0 - 2026-02-18
 
 ### Added
