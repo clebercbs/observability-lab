@@ -3,6 +3,7 @@ prometheus/data/
 loki/data/
 grafana/data/
 portainer/data/
+clients/
 
 # Environment
 .env
