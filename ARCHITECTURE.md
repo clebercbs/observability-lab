@@ -64,6 +64,14 @@ Função:
 - Portainer
 - Alloy Receivers
 
+Observação sobre o Zabbix:
+
+O Zabbix é utilizado para monitoramento de infraestrutura tradicional,
+ativos legados e dispositivos de rede (SNMP), complementando o
+monitoramento cloud-native realizado pelo Prometheus.
+
+Ele não substitui o Prometheus, atuando de forma paralela e especializada.
+
 ---
 
 ## 5. Modelo de Containerização
@@ -90,6 +98,21 @@ VM-MONITORING (Plataforma MSP)
 Grafana (Correlação)
         ↓
 Alertas (Prometheus / Zabbix)
+
+## 6.1 Papel do Zabbix na Arquitetura
+
+O Zabbix é responsável pelo monitoramento de:
+
+- Servidores bare metal e VMs
+- Serviços legados
+- Dispositivos de rede via SNMP
+- Monitoramento ativo e passivo baseado em agentes
+
+O Prometheus permanece responsável por métricas cloud-native,
+Kubernetes e aplicações instrumentadas.
+
+A correlação entre métricas, logs e alertas ocorre no Grafana.
+
 
 ---
 
