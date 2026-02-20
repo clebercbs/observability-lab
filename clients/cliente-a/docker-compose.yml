@@ -3,8 +3,6 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: ${CLIENT_NAME}_prometheus
-    ports:
-      - "${PROMETHEUS_PORT}:9090"
     volumes:
       - prometheus-data:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -14,26 +12,22 @@ services:
       - '--storage.tsdb.retention.time=15d'
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
 
   loki:
     image: grafana/loki:latest
     container_name: ${CLIENT_NAME}_loki
-    ports:
-      - "${LOKI_PORT}:3100"
     volumes:
       - loki-data:/loki
       - ./loki/loki-config.yml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
 
   grafana:
     image: grafana/grafana:latest
     container_name: ${CLIENT_NAME}_grafana
-    ports:
-      - "${GRAFANA_PORT}:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
@@ -43,19 +37,18 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
+      - proxy-network
 
   portainer:
     image: portainer/portainer-ce:latest
     container_name: ${CLIENT_NAME}_portainer
-    ports:
-      - "${PORTAINER_PORT}:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer-data:/data
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
 
   zabbix-db:
     image: postgres:15
@@ -69,7 +62,7 @@ services:
       - zabbix-db-data:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
 
   zabbix-server:
     image: zabbix/zabbix-server-pgsql:latest
@@ -80,11 +73,9 @@ services:
       DB_SERVER_HOST: zabbix-db
       POSTGRES_USER: ${ZABBIX_DB_USER}
       POSTGRES_PASSWORD: ${ZABBIX_DB_PASSWORD}
-    ports:
-      - "10051:10051"
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
 
   zabbix-web:
     image: zabbix/zabbix-web-nginx-pgsql:latest
@@ -97,19 +88,25 @@ services:
       POSTGRES_PASSWORD: ${ZABBIX_DB_PASSWORD}
       ZBX_SERVER_HOST: zabbix-server
       PHP_TZ: America/Sao_Paulo
-    ports:
-      - "${ZABBIX_WEB_PORT}:8080"
     restart: unless-stopped
     networks:
-      - ${CLIENT_NAME}_msp-network
+      - msp-network
 
 networks:
   msp-network:
-    driver: bridge
+    name: ${CLIENT_NAME}_msp-network
+  proxy-network:
+    external: true
+    name: msp_proxy_network
 
 volumes:
-  ${CLIENT_NAME}_prometheus-data:
-  ${CLIENT_NAME}_grafana-data:
-  ${CLIENT_NAME}_loki-data:
-  ${CLIENT_NAME}_portainer-data:
-  ${CLIENT_NAME}_zabbix-db-data:
+  grafana-data:
+    name: ${CLIENT_NAME}_grafana-data
+  prometheus-data:
+    name: ${CLIENT_NAME}_prometheus-data
+  loki-data:
+    name: ${CLIENT_NAME}_loki-data
+  zabbix-db-data:
+    name: ${CLIENT_NAME}_zabbix-db-data
+  portainer-data:
+    name: ${CLIENT_NAME}_portainer-data

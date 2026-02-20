@@ -1,0 +1,16 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: msp_reverse_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true
+    name: msp_proxy_network
